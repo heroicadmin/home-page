@@ -24,8 +24,8 @@
     "name": "Production Map",
     "tagline": "Multi-camera production visualizer",
     "description": "Map cameras, cables, people and equipment across multiple rooms. Built for live production planning.",
-    "url": null,
-    "status": "coming-soon",
+    "url": "https://map.limitbreak.no",
+    "status": "live",
     "color": "#7ec4ff",
     "icon": "🎬"
   }
