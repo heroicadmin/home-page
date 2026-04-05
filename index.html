@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Limit Break</title>
+  <meta name="description" content="Tools and platforms built by Limit Break." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+  <div class="noise"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="wordmark">LIMIT<span>BREAK</span></div>
+      <div class="header-meta">Tools &amp; Platforms</div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <section class="hero">
+      <p class="hero-label">Internal Tooling</p>
+      <h1 class="hero-title">Everything in<br />one place.</h1>
+      <p class="hero-sub">A suite of tools built to support HEROIC operations — from social tracking to internal ops.</p>
+    </section>
+
+    <section class="tools-section">
+      <div class="tools-header">
+        <span class="tools-label">Tools</span>
+        <span id="tool-count" class="tools-count"></span>
+      </div>
+      <div class="tools-grid" id="tools-grid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-wordmark">LIMIT BREAK</span>
+      <span class="footer-copy">Internal use only</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script>
+  // ─────────────────────────────────────────────────────────────
+  //  Three.js — Particle Network Background
+  // ─────────────────────────────────────────────────────────────
+  (function initScene() {
+    const canvas = document.getElementById('bg-canvas');
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 1, 3000);
+    camera.position.z = 500;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setClearColor(0x000000, 0);
+
+    // ── Particle count (lower on mobile) ──────────────────────
+    const COUNT    = innerWidth < 768 ? 80 : 190;
+    const MAX_DIST = 155;
+    const HALF_W   = 640;
+    const HALF_H   = 380;
+
+    // ── Positions & velocities ────────────────────────────────
+    const pPos = new Float32Array(COUNT * 3);
+    const pVel = Array.from({ length: COUNT }, () => ({
+      x: (Math.random() - 0.5) * 0.22,
+      y: (Math.random() - 0.5) * 0.22,
+    }));
+    for (let i = 0; i < COUNT; i++) {
+      pPos[i*3]   = (Math.random() - 0.5) * HALF_W * 2;
+      pPos[i*3+1] = (Math.random() - 0.5) * HALF_H * 2;
+      pPos[i*3+2] = (Math.random() - 0.5) * 80;
+    }
+
+    // ── Soft circular glow texture for particles ──────────────
+    const ptc = document.createElement('canvas');
+    ptc.width = ptc.height = 32;
+    const ptx = ptc.getContext('2d');
+    const g   = ptx.createRadialGradient(16,16,0, 16,16,16);
+    g.addColorStop(0,   'rgba(255,255,255,1)');
+    g.addColorStop(0.3, 'rgba(255,255,255,0.5)');
+    g.addColorStop(1,   'rgba(255,255,255,0)');
+    ptx.fillStyle = g;
+    ptx.fillRect(0, 0, 32, 32);
+
+    // ── Points ────────────────────────────────────────────────
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const pMat = new THREE.PointsMaterial({
+      color:       0xffffff,
+      size:        5,
+      map:         new THREE.CanvasTexture(ptc),
+      transparent: true,
+      opacity:     0.4,
+      depthWrite:  false,
+      blending:    THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    });
+    scene.add(new THREE.Points(pGeo, pMat));
+
+    // ── Lines (pre-allocated buffer, no GC per frame) ─────────
+    const MAX_SEGS = Math.floor(COUNT * (COUNT - 1) / 2);
+    const lPos = new Float32Array(MAX_SEGS * 6);
+    const lCol = new Float32Array(MAX_SEGS * 6);
+
+    const lGeo = new THREE.BufferGeometry();
+    lGeo.setAttribute('position', new THREE.BufferAttribute(lPos, 3));
+    lGeo.setAttribute('color',    new THREE.BufferAttribute(lCol, 3));
+    lGeo.setDrawRange(0, 0);
+
+    const lMat = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent:  true,
+      opacity:      1,
+      depthWrite:   false,
+      blending:     THREE.AdditiveBlending,
+    });
+    scene.add(new THREE.LineSegments(lGeo, lMat));
+
+    // ── Mouse tracking (converted to world space) ─────────────
+    const mouseW = { x: 0, y: 0 };
+    window.addEventListener('mousemove', (e) => {
+      const vFov = camera.fov * Math.PI / 180;
+      const vH   = 2 * camera.position.z * Math.tan(vFov / 2);
+      const vW   = vH * camera.aspect;
+      mouseW.x = ((e.clientX / innerWidth)  * 2 - 1) * (vW / 2);
+      mouseW.y = (-(e.clientY / innerHeight) * 2 + 1) * (vH / 2);
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    // ── Animation loop ────────────────────────────────────────
+    const REPULSE_R = 160;
+    const DAMPING   = 0.975;
+    const MAX_SPD   = 1.8;
+    const MD2       = MAX_DIST * MAX_DIST;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const pos = pGeo.attributes.position.array;
+
+      for (let i = 0; i < COUNT; i++) {
+        const ix = i * 3;
+        const px = pos[ix], py = pos[ix+1];
+        const dx = px - mouseW.x, dy = py - mouseW.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+
+        if (dist < REPULSE_R && dist > 0.5) {
+          const f = (1 - dist / REPULSE_R) * 1.4;
+          pVel[i].x += (dx / dist) * f;
+          pVel[i].y += (dy / dist) * f;
+        }
+        pVel[i].x *= DAMPING;
+        pVel[i].y *= DAMPING;
+        const spd = Math.sqrt(pVel[i].x**2 + pVel[i].y**2);
+        if (spd > MAX_SPD) { pVel[i].x *= MAX_SPD/spd; pVel[i].y *= MAX_SPD/spd; }
+
+        pos[ix]   += pVel[i].x;
+        pos[ix+1] += pVel[i].y;
+        if (pos[ix]   >  HALF_W) pos[ix]   = -HALF_W;
+        if (pos[ix]   < -HALF_W) pos[ix]   =  HALF_W;
+        if (pos[ix+1] >  HALF_H) pos[ix+1] = -HALF_H;
+        if (pos[ix+1] < -HALF_H) pos[ix+1] =  HALF_H;
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      // Build connections
+      let seg = 0;
+      for (let i = 0; i < COUNT; i++) {
+        for (let j = i+1; j < COUNT; j++) {
+          const ax=pos[i*3], ay=pos[i*3+1], az=pos[i*3+2];
+          const bx=pos[j*3], by=pos[j*3+1], bz=pos[j*3+2];
+          const d2 = (ax-bx)**2 + (ay-by)**2;
+          if (d2 < MD2) {
+            const t = (1 - Math.sqrt(d2) / MAX_DIST) * 0.22; // max brightness
+            const si = seg * 6;
+            lPos[si]  =ax; lPos[si+1]=ay; lPos[si+2]=az;
+            lPos[si+3]=bx; lPos[si+4]=by; lPos[si+5]=bz;
+            lCol[si]  =t;  lCol[si+1]=t;  lCol[si+2]=t;
+            lCol[si+3]=t;  lCol[si+4]=t;  lCol[si+5]=t;
+            seg++;
+          }
+        }
+      }
+      lGeo.setDrawRange(0, seg * 2);
+      lGeo.attributes.position.needsUpdate = true;
+      lGeo.attributes.color.needsUpdate    = true;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  })();
+
+  // ─────────────────────────────────────────────────────────────
+  //  Tool Cards
+  // ─────────────────────────────────────────────────────────────
+  async function loadTools() {
+    const res   = await fetch('tools.json');
+    const tools = await res.json();
+
+    const grid    = document.getElementById('tools-grid');
+    const countEl = document.getElementById('tool-count');
+    const live    = tools.filter(t => t.status === 'live').length;
+    countEl.textContent = `${live} live · ${tools.length} total`;
+
+    tools.forEach((tool, i) => {
+      const isLive = tool.status === 'live';
+      const card   = document.createElement('a');
+      card.className = `tool-card ${isLive ? 'tool-live' : 'tool-soon'}`;
+      card.href      = isLive && tool.url ? tool.url : '#';
+      if (isLive) { card.target = '_blank'; card.rel = 'noopener noreferrer'; }
+      else        { card.addEventListener('click', e => e.preventDefault()); }
+
+      card.style.setProperty('--tool-color', tool.color);
+      card.style.animationDelay = `${i * 90}ms`;
+
+      card.innerHTML = `
+        <div class="tool-top">
+          <span class="tool-icon">${tool.icon}</span>
+          <span class="tool-badge ${isLive ? 'badge-live' : 'badge-soon'}">
+            ${isLive ? '<span class="badge-dot"></span> Live' : 'Soon'}
+          </span>
+        </div>
+        <div class="tool-body">
+          <h2 class="tool-name">${tool.name}</h2>
+          <p class="tool-tagline">${tool.tagline}</p>
+          <p class="tool-desc">${tool.description}</p>
+        </div>
+        <div class="tool-footer">
+          ${isLive
+            ? `<span class="tool-url">${tool.url.replace('https://', '')}</span><span class="tool-arrow">↗</span>`
+            : `<span class="tool-url muted">—</span>`
+          }
+        </div>
+      `;
+
+      // 3D tilt on live cards
+      if (isLive) {
+        let raf = null;
+        card.addEventListener('mousemove', (e) => {
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const r  = card.getBoundingClientRect();
+            const dx = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+            const dy = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+            card.style.transition = 'border-color 0.2s, background 0.2s, box-shadow 0.2s';
+            card.style.transform  = `perspective(900px) rotateY(${dx*9}deg) rotateX(${-dy*9}deg) translateZ(10px)`;
+          });
+        });
+        card.addEventListener('mouseleave', () => {
+          if (raf) cancelAnimationFrame(raf);
+          card.style.transition = 'border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.55s cubic-bezier(0.23,1,0.32,1)';
+          card.style.transform  = '';
+        });
+      }
+
+      grid.appendChild(card);
+    });
+  }
+
+  loadTools();
+
+  // Mouse-tracked radial glow inside each card
+  document.addEventListener('mousemove', (e) => {
+    document.querySelectorAll('.tool-card').forEach(card => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${((e.clientX - r.left) / r.width)  * 100}%`);
+      card.style.setProperty('--my', `${((e.clientY - r.top)  / r.height) * 100}%`);
+    });
+  });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "pulse",
+    "name": "Pulse",
+    "tagline": "Social media attribution tracker",
+    "description": "Track, score, and attribute social media posts across platforms. Built for HEROIC esports.",
+    "url": "https://pulse.limitbreak.no",
+    "status": "live",
+    "color": "#c8ff32",
+    "icon": "📡"
+  },
+  {
+    "id": "hemelaga",
+    "name": "Hemelaga",
+    "tagline": "Recipe & shopping list app",
+    "description": "Store recipes, generate shopping lists, and plan meals. Shared across devices with Supabase.",
+    "url": "https://hemelaga.limitbreak.no",
+    "status": "live",
+    "color": "#5cffca",
+    "icon": "🍳"
+  },
+  {
+    "id": "production-map",
+    "name": "Production Map",
+    "tagline": "Multi-camera production visualizer",
+    "description": "Map cameras, cables, people and equipment across multiple rooms. Built for live production planning.",
+    "url": null,
+    "status": "coming-soon",
+    "color": "#7ec4ff",
+    "icon": "🎬"
+  }
+]
