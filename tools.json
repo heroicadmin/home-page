@@ -38,5 +38,15 @@
     "status": "live",
     "color": "#ff7e7e",
     "icon": "📊"
+  },
+  {
+    "id": "fortnite",
+    "name": "Fortnite Tracker",
+    "tagline": "Tournament leaderboard generator",
+    "description": "Upload match results and get instant leaderboards with FNCS scoring, podium highlights, and trophy badges.",
+    "url": "https://fortnite.limitbreak.no",
+    "status": "live",
+    "color": "#c4a8ff",
+    "icon": "🏆"
   }
 ]
