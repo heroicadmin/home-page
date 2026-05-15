@@ -48,15 +48,5 @@
     "status": "live",
     "color": "#c4a8ff",
     "icon": "🏆"
-  },
-  {
-    "id": "resume",
-    "name": "Resume",
-    "tagline": "Build and share password-protected resumes",
-    "description": "Block-based resume builder with PDF export and password-protected sharing.",
-    "url": "https://resume.limitbreak.no",
-    "status": "live",
-    "color": "#ffd27e",
-    "icon": "📄"
   }
 ]
