@@ -20,14 +20,14 @@
     "icon": "🍳"
   },
   {
-    "id": "production-map",
-    "name": "Production Map",
-    "tagline": "Multi-camera production visualizer",
-    "description": "Map cameras, cables, people and equipment across multiple rooms. Built for live production planning.",
-    "url": "https://map.limitbreak.no",
+    "id": "mindmap",
+    "name": "Mindmap",
+    "tagline": "Interactive mind mapping tool",
+    "description": "Build and explore visual mind maps with a radial node layout. Create, connect, and organize ideas in a shareable single-file app.",
+    "url": "https://limitbreak.no/mindmap.html",
     "status": "live",
-    "color": "#7ec4ff",
-    "icon": "🎬"
+    "color": "#ffd27e",
+    "icon": "🧠"
   },
   {
     "id": "traekker",
