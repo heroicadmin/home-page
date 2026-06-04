@@ -48,5 +48,15 @@
     "status": "live",
     "color": "#c4a8ff",
     "icon": "🏆"
+  },
+  {
+    "id": "fraud-tracker",
+    "name": "Fraud Tracker",
+    "tagline": "Social media profile investigator",
+    "description": "Scrape any public social media profile and inspect posts, engagement, and activity across Twitter, Instagram, TikTok, Facebook, and YouTube.",
+    "url": "https://fraud.limitbreak.no",
+    "status": "live",
+    "color": "#ff9ef5",
+    "icon": "🔍"
   }
 ]
