@@ -58,5 +58,15 @@
     "status": "live",
     "color": "#ff9ef5",
     "icon": "🔍"
+  },
+  {
+    "id": "pitch-studio",
+    "name": "Pitch Studio",
+    "tagline": "Sales pitch builder with tracking",
+    "description": "Build client pitches from a shared slide library, then share them on a password-protected link with open tracking.",
+    "url": "https://pitch.limitbreak.no",
+    "status": "live",
+    "color": "#6fe3d2",
+    "icon": "🗂️"
   }
 ]
