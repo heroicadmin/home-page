@@ -9,6 +9,7 @@ limitbreak.no (root)        --> one.com static hosting (File Manager)
 pulse.limitbreak.no         --> Railway (successful-adventure project)
 hemelaga.limitbreak.no      --> Railway (vibrant-emotion project)
 map.limitbreak.no           --> Railway (terrific-perfection project)
+pitch.limitbreak.no         --> Railway (pitch-studio project)
 ```
 
 - **Domain registrar & DNS**: one.com (login: sindre.stien@gmail.com)
@@ -156,6 +157,7 @@ Add the tool to `tools.json` and deploy (see sections above).
 | vibrant-emotion | hemelaga | hemelaga.limitbreak.no | heroicadmin/hemelaga |
 | terrific-perfection | production-map | map.limitbreak.no | heroicadmin/production-map |
 | natural-sparkle | home-page (unused) | — | heroicadmin/home-page |
+| pitch-studio | captainhook | pitch.limitbreak.no | heroicadmin/captainhook |
 
 ## Existing DNS Records (one.com)
 
@@ -165,10 +167,31 @@ Add the tool to `tools.json` and deploy (see sections above).
 | CNAME | map | 4uz1idl5.up.railway.app |
 | CNAME | pulse | dv1zdge5.up.railway.app |
 | CNAME | home | opyp9eus.up.railway.app |
+| CNAME | pitch | ufu84qu8.up.railway.app |
 | TXT | _railway-verify.hemelaga | railway-verify=542bd2... |
 | TXT | _railway-verify.map | railway-verify=12d05d... |
 | TXT | _railway-verify.pulse | railway-verify=a62e7b... |
 | TXT | _railway-verify.home | railway-verify=7f6125... |
+| TXT | _railway-verify.pitch | railway-verify=549572... |
+
+## Pitch Studio (pitch.limitbreak.no)
+
+Salgsverktøy for Skagerrak og HEROIC: bygger pitcher av ferdige slides og deler dem
+med kunden på en passordbeskyttet lenke med sporing.
+
+- **Repo**: `heroicadmin/captainhook` — statiske filer + nginx (Dockerfile), ingen byggesteg
+- **Appen er `index.html`** og ligger på rota. Klientlenker: `pitch.limitbreak.no/#/p/<slug>`,
+  dashbordet på `/#/arkiv`
+- **Supabase**: eget prosjekt `qiuiqgvkpsbkmpyyayej` (IKKE det samme som resten av
+  limitbreak). Data i `shared_data`/`pitches`, bilder i storage-bøtta `pitch-assets`
+- **Tilgang**: innlogging kreves; registrering er låst til `@skagerrak.tech` og
+  `@heroic.gg` via en trigger på `auth.users`
+- **Eierskap per selskap**: merkevarer, bildemapper, avsendere, caser, slides og
+  prismodell er filtrert på brukerens e-postdomene
+
+> **Før du endrer koden: les `NOTES.md` i repoet.** Den samler fellene som svikter
+> stille — særlig `SHARED_KEYS` i `cloud-store.js`: en ny nøkkel som ikke står der
+> blir aldri lagret, uten feilmelding.
 
 ## Quick Reference
 
