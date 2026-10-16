@@ -70,6 +70,16 @@
     "icon": "🗂️"
   },
   {
+    "id": "merch",
+    "name": "Merch Order Desk",
+    "tagline": "Team merch ordering tool",
+    "description": "Track sizes, allotments, and patch orders for the whole team. Calculates stock to buy and what is left for the shop.",
+    "url": "https://merch.limitbreak.no",
+    "status": "live",
+    "color": "#7eb8ff",
+    "icon": "👕"
+  },
+  {
     "id": "daily-play",
     "name": "Daily Play",
     "tagline": "Guess the famous CS play",
