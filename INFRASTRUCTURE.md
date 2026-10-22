@@ -10,7 +10,7 @@ pulse.limitbreak.no         --> Railway (successful-adventure project)
 hemelaga.limitbreak.no      --> Railway (vibrant-emotion project)
 map.limitbreak.no           --> Railway (terrific-perfection project)
 pitch.limitbreak.no         --> Railway (pitch-studio project)
-play.limitbreak.no          --> Railway (daily-play project)
+minimap.limitbreak.no       --> Railway (daily-play project; play.limitbreak.no also works)
 ```
 
 - **Domain registrar & DNS**: one.com (login: sindre.stien@gmail.com)
@@ -159,7 +159,7 @@ Add the tool to `tools.json` and deploy (see sections above).
 | terrific-perfection | production-map | map.limitbreak.no | heroicadmin/production-map |
 | natural-sparkle | home-page (unused) | — | heroicadmin/home-page |
 | pitch-studio | captainhook | pitch.limitbreak.no | heroicadmin/captainhook |
-| daily-play | daily-play | play.limitbreak.no | heroicadmin/daily-play |
+| daily-play | daily-play | minimap.limitbreak.no (+ play.) | heroicadmin/daily-play |
 
 ## Existing DNS Records (one.com)
 
@@ -171,14 +171,16 @@ Add the tool to `tools.json` and deploy (see sections above).
 | CNAME | home | opyp9eus.up.railway.app |
 | CNAME | pitch | ufu84qu8.up.railway.app |
 | CNAME | play | nru7y07j.up.railway.app |
+| CNAME | minimap | 0aemfxi3.up.railway.app |
 | TXT | _railway-verify.hemelaga | railway-verify=542bd2... |
 | TXT | _railway-verify.map | railway-verify=12d05d... |
 | TXT | _railway-verify.pulse | railway-verify=a62e7b... |
 | TXT | _railway-verify.home | railway-verify=7f6125... |
 | TXT | _railway-verify.pitch | railway-verify=549572... |
 | TXT | _railway-verify.play | railway-verify=2eb0ac... |
+| TXT | _railway-verify.minimap | railway-verify=b61996... |
 
-## Daily Play (play.limitbreak.no)
+## Daily Play (minimap.limitbreak.no)
 
 Daglig CS-gåte i Wordle-stil: en radar-replay av et kjent pro-øyeblikk, og man gjetter
 lagene, turneringen, spilleren og året.

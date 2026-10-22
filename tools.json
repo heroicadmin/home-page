@@ -84,7 +84,7 @@
     "name": "Daily Play",
     "tagline": "Guess the famous CS play",
     "description": "A daily Counter-Strike puzzle: scrub a radar replay of an iconic pro play and guess the teams, tournament, player and year.",
-    "url": "https://play.limitbreak.no",
+    "url": "https://minimap.limitbreak.no",
     "status": "live",
     "color": "#f0a030",
     "icon": "🎯"
