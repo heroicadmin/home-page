@@ -88,5 +88,15 @@
     "status": "live",
     "color": "#f0a030",
     "icon": "🎯"
+  },
+  {
+    "id": "glide",
+    "name": "Glide",
+    "tagline": "Daily one-button surf glider",
+    "description": "Dive down the ramps, launch off the crests. A new map every day, the same for everyone.",
+    "url": "https://glide.limitbreak.no",
+    "status": "live",
+    "color": "#ffe14d",
+    "icon": "🪂"
   }
 ]
