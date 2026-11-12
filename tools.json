@@ -30,16 +30,6 @@
     "icon": "🧠"
   },
   {
-    "id": "traekker",
-    "name": "Trækker",
-    "tagline": "Content creator performance tracker",
-    "description": "Track creator accounts across 6 social platforms, score content with engagement metrics, and manage creator rosters across workspaces.",
-    "url": "https://traekker.limitbreak.no",
-    "status": "live",
-    "color": "#ff7e7e",
-    "icon": "📊"
-  },
-  {
     "id": "fortnite",
     "name": "Fortnite Tracker",
     "tagline": "Tournament leaderboard generator",
